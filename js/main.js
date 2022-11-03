@@ -1,5 +1,9 @@
+c=0;
 const controle = document.querySelectorAll('[data-controle]');
 const estatisticas = document.querySelectorAll('[data-estatistica]');
+const botaoTrocaCor = document.querySelector('#troca_cor');
+const imagemDoRobo = document.querySelector('.robo');
+const cores = ['Azul','Amarelo','Branco','Rosa','Vermelho','Preto'];
 const pecas = {
     "bracos": {
         "forca": 29,
@@ -36,8 +40,12 @@ const pecas = {
 controle.forEach( (elemento) => {
     elemento.addEventListener("click", (evento) => {
         manipulaDados(evento.target.dataset.controle, evento.target.parentNode);
-        atualizaEstatisticas(evento.target.dataset.peca);
+        atualizaEstatisticas(evento.target.dataset.controle, evento.target.parentNode,evento.target.dataset.peca);
     })
+})
+
+botaoTrocaCor.addEventListener('click', (evento) => {
+    trocaCor();
 })
 
 function manipulaDados(operacao, controle) {
@@ -49,10 +57,20 @@ function manipulaDados(operacao, controle) {
     }
 }
 
-function atualizaEstatisticas(peca) {
+function atualizaEstatisticas(operacao, controle, peca) {
     estatisticas.forEach( (elemento) => {
-        elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica];
+        if(operacao === "+") {
+            elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica];
+        }else{
+                elemento.textContent = parseInt(elemento.textContent) - (pecas[peca][elemento.dataset.estatistica]);
+        } 
     });
+}
+
+function trocaCor() {
+    imagemDoRobo.src = "img/imagens-do-robotron/Robotron 2000 - " + cores[c] + "/Robotron 2000 - " + cores[c] + ".png";
+    c++;
+    if(c==6) c=0;
 }
 
 
